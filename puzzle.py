@@ -1,5 +1,5 @@
-initialState = [3, 2, 1, 0]
-goalState = [1, 2, 3, 0]
+initialState = [1, 0, 2, 3]
+goalState = [2, 1, 3, 0]
 
 queue = []
 visited = []
@@ -88,47 +88,64 @@ def moveLeft(node):
         return nodeCopy
 
 
+def performOpoerations(node, opr1, opr2, queue):
+    temp1 = opr1(node)
+    temp2 = opr2(node)
+    if temp1 not in visited:
+        queue.append(temp1)
+    if temp2 not in visited:
+        queue.append(temp2)
+
+
 def puzzle(queue, initialState, visited, goalState):
     queue.append(initialState)
-
+    global found
+    found = False
     while(queue):
-        elem = queue.pop(0)
-        visited.append(elem)
-        if compareNodes(elem, goalState):
+        node = queue.pop(0)
+        visited.append(node)
+        if compareNodes(node, goalState):
             print("Goal node found")
+            found = True
             break
         else:
-            indexOfZero = elem.index(0)
+            indexOfZero = node.index(0)
             if indexOfZero == 0:
-                temp1 = moveDown(elem)
-                temp2 = moveRight(elem)
-                if temp1 not in visited:
-                    queue.append(temp1)
-                if temp2 not in visited:
-                    queue.append(temp2)
+                performOpoerations(node, moveDown, moveRight, queue)
+                # temp1 = moveDown(node)
+                # temp2 = moveRight(node)
+                # if temp1 not in visited:
+                #     queue.append(temp1)
+                # if temp2 not in visited:
+                #     queue.append(temp2)
             elif indexOfZero == 1:
-                temp1 = moveLeft(elem)
-                temp2 = moveDown(elem)
-                if temp1 not in visited:
-                    queue.append(temp1)
-                if temp2 not in visited:
-                    queue.append(temp2)
+                performOpoerations(node, moveDown, moveLeft, queue)
+                # temp1 = moveLeft(node)
+                # temp2 = moveDown(node)
+                # if temp1 not in visited:
+                #     queue.append(temp1)
+                # if temp2 not in visited:
+                #     queue.append(temp2)
             elif indexOfZero == 2:
-
-                temp1 = moveUp(elem)
-                temp2 = moveRight(elem)
-                if temp1 not in visited:
-                    queue.append(temp1)
-                if temp2 not in visited:
-                    queue.append(temp2)
+                performOpoerations(node, moveUp, moveRight, queue)
+                # temp1 = moveUp(node)
+                # temp2 = moveRight(node)
+                # if temp1 not in visited:
+                #     queue.append(temp1)
+                # if temp2 not in visited:
+                #     queue.append(temp2)
             elif indexOfZero == 3:
-                temp1 = moveLeft(elem)
-                temp2 = moveUp(elem)
-                if temp1 not in visited:
-                    queue.append(temp1)
-                if temp2 not in visited:
-                    queue.append(temp2)
+                performOpoerations(node, moveUp, moveLeft, queue)
+                # temp1 = moveLeft(node)
+                # temp2 = moveUp(node)
+                # if temp1 not in visited:
+                #     queue.append(temp1)
+                # if temp2 not in visited:
+                #     queue.append(temp2)
 
 
 puzzle(queue, initialState, visited, goalState)
-print("The visited Path is:", visited)
+
+
+print("The visited path is: ", visited) if found else print(
+    "The goal state cannot be found")
