@@ -93,20 +93,30 @@ def puzzle(queue, initialState, visited, goalState):
 
 puzzle(queue, initialState, visited, goalState)
 print(visited)
-i = 0
+
 if found:
-    lastIndexOfZero = 111
-    for value in visited:
-        indexOfZero = value.index(0)
-        checkIndex = lastIndexOfZero-indexOfZero
-        if checkIndex == -1 or checkIndex == 1 or checkIndex == 0 or lastIndexOfZero == 111:
+    lengthOfVisited = int(len(visited))
+    print(lengthOfVisited)
+    if lengthOfVisited % 2 == 0:
+        print("---------")
+        print("| {} | {} |".format(visited[0][0], visited[0][1]))
+        print("| {} | {} |".format(visited[0][2], visited[0][3]))
+        print("---------")
+        print("\n")
+        for x in range(1, lengthOfVisited, 2):
             print("---------")
-            print("| {} | {} |".format(value[0], value[1]))
-            print("| {} | {} |".format(value[2], value[3]))
+            print("| {} | {} |".format(visited[x][0], visited[x][1]))
+            print("| {} | {} |".format(visited[x][2], visited[x][3]))
             print("---------")
             print("\n")
-            i = i+1
-        if i == len(visited)-2:
-        lastIndexOfZero = indexOfZero
+    else:
+        for x in range(0, lengthOfVisited, 2):
+            print(" ---------")
+            print("*| {} | {} |".format(visited[x][0], visited[x][1]))
+            print(" | {} | {} |".format(visited[x][2], visited[x][3]))
+            print(" ---------")
+            print("\n")
+
+
 else:
     print("The given pattern cannot be formed.")
