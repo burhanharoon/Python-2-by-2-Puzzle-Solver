@@ -1,4 +1,4 @@
-initialState = [0, 3, 2, 1]
+initialState = [1, 2, 0, 3]
 goalState = [1, 2, 3, 0]
 
 queue = []
@@ -68,6 +68,14 @@ def performOpoerations(queue, node, opr1, opr2):
         queue.append(temp2)
 
 
+def printPuzzle(index):
+    print("---------")
+    print("| {} | {} |".format(visited[index][0], visited[index][1]))
+    print("| {} | {} |".format(visited[index][2], visited[index][3]))
+    print("---------")
+    print("\n")
+
+
 def puzzle(queue, initialState, visited, goalState):
     queue.append(initialState)
     global found
@@ -92,31 +100,16 @@ def puzzle(queue, initialState, visited, goalState):
 
 
 puzzle(queue, initialState, visited, goalState)
-print(visited)
 
 if found:
     lengthOfVisited = int(len(visited))
-    print(lengthOfVisited)
     if lengthOfVisited % 2 == 0:
-        print("---------")
-        print("| {} | {} |".format(visited[0][0], visited[0][1]))
-        print("| {} | {} |".format(visited[0][2], visited[0][3]))
-        print("---------")
-        print("\n")
+        printPuzzle(0)
         for x in range(1, lengthOfVisited, 2):
-            print("---------")
-            print("| {} | {} |".format(visited[x][0], visited[x][1]))
-            print("| {} | {} |".format(visited[x][2], visited[x][3]))
-            print("---------")
-            print("\n")
+            printPuzzle(x)
     else:
         for x in range(0, lengthOfVisited, 2):
-            print(" ---------")
-            print("*| {} | {} |".format(visited[x][0], visited[x][1]))
-            print(" | {} | {} |".format(visited[x][2], visited[x][3]))
-            print(" ---------")
-            print("\n")
-
+            printPuzzle(x)
 
 else:
     print("The given pattern cannot be formed.")
