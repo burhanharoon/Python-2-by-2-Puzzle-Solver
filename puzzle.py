@@ -12,10 +12,10 @@ def compareNodes(node1, node2):
         return False
 
 
-def interChangeValues(node, interChangeValue1, interChangeValue2):
-    temp = node[interChangeValue1]
-    node[interChangeValue1] = 0
-    node[interChangeValue2] = temp
+def interChangeValues(node, interChangeIndex1, interChangeIndex2):
+    temp = node[interChangeIndex1]
+    node[interChangeIndex1] = 0
+    node[interChangeIndex2] = temp
     return node
 
 
@@ -115,5 +115,3 @@ else:
     print("The given pattern cannot be formed.")
 
 input('Press <ENTER> to continue')
-
-# time.sleep()
