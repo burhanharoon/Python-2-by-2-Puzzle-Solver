@@ -113,3 +113,7 @@ if found:
 
 else:
     print("The given pattern cannot be formed.")
+
+input('Press <ENTER> to continue')
+
+# time.sleep()
