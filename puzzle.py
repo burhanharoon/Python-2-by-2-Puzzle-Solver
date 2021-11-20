@@ -12,16 +12,11 @@ def compareNodes(node1, node2):
         return False
 
 
-def checkVisitedNodes(visited, toCheckNode):
-    flag = False
-    for visitedNode in visited:
-        if compareNodes(visitedNode, toCheckNode):
-            flag = True
-
-    if flag:
-        return True
-    else:
-        return False
+def interChangeValues(node, interChangeValue1, interChangeValue2):
+    temp = node[interChangeValue1]
+    node[interChangeValue1] = 0
+    node[interChangeValue2] = temp
+    return node
 
 
 def moveUp(node):
@@ -29,15 +24,9 @@ def moveUp(node):
     for x in node:
         nodeCopy.append(x)
     if node.index(0) == 2:
-        temp = nodeCopy[0]
-        nodeCopy[0] = 0
-        nodeCopy[2] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 0, 2)
     elif node.index(0) == 3:
-        temp = nodeCopy[1]
-        nodeCopy[1] = 0
-        nodeCopy[3] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 1, 3)
 
 
 def moveDown(node):
@@ -45,15 +34,9 @@ def moveDown(node):
     for x in node:
         nodeCopy.append(x)
     if node.index(0) == 0:
-        temp = nodeCopy[2]
-        nodeCopy[2] = 0
-        nodeCopy[0] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 2, 0)
     elif node.index(0) == 1:
-        temp = nodeCopy[3]
-        nodeCopy[3] = 0
-        nodeCopy[1] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 3, 1)
 
 
 def moveRight(node):
@@ -61,15 +44,9 @@ def moveRight(node):
     for x in node:
         nodeCopy.append(x)
     if node.index(0) == 0:
-        temp = nodeCopy[1]
-        nodeCopy[1] = 0
-        nodeCopy[0] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 1, 0)
     elif node.index(0) == 2:
-        temp = nodeCopy[3]
-        nodeCopy[3] = 0
-        nodeCopy[2] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 3, 2)
 
 
 def moveLeft(node):
@@ -77,18 +54,12 @@ def moveLeft(node):
     for x in node:
         nodeCopy.append(x)
     if node.index(0) == 1:
-        temp = nodeCopy[0]
-        nodeCopy[0] = 0
-        nodeCopy[1] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 0, 1)
     elif node.index(0) == 3:
-        temp = nodeCopy[2]
-        nodeCopy[2] = 0
-        nodeCopy[3] = temp
-        return nodeCopy
+        return interChangeValues(nodeCopy, 2, 3)
 
 
-def performOpoerations(node, opr1, opr2, queue):
+def performOpoerations(queue, node, opr1, opr2):
     temp1 = opr1(node)
     temp2 = opr2(node)
     if temp1 not in visited:
@@ -106,22 +77,36 @@ def puzzle(queue, initialState, visited, goalState):
         last = node
         visited.append(node)
         if compareNodes(node, goalState):
-            print("Goal node found")
             found = True
             break
         else:
             indexOfZero = node.index(0)
             if indexOfZero == 0:
-                performOpoerations(node, moveDown, moveRight, queue)
+                performOpoerations(queue, node, moveDown, moveRight)
             elif indexOfZero == 1:
-                performOpoerations(node, moveDown, moveLeft, queue)
+                performOpoerations(queue, node, moveLeft, moveDown)
             elif indexOfZero == 2:
-                performOpoerations(node, moveUp, moveRight, queue)
+                performOpoerations(queue, node, moveUp, moveRight)
             elif indexOfZero == 3:
-                performOpoerations(node, moveUp, moveLeft, queue)
+                performOpoerations(queue, node, moveLeft, moveUp)
 
 
 puzzle(queue, initialState, visited, goalState)
-
-print("The visited path is: ", visited) if found else print(
-    "The goal state cannot be found")
+print(visited)
+i = 0
+if found:
+    lastIndexOfZero = 111
+    for value in visited:
+        indexOfZero = value.index(0)
+        checkIndex = lastIndexOfZero-indexOfZero
+        if checkIndex == -1 or checkIndex == 1 or checkIndex == 0 or lastIndexOfZero == 111:
+            print("---------")
+            print("| {} | {} |".format(value[0], value[1]))
+            print("| {} | {} |".format(value[2], value[3]))
+            print("---------")
+            print("\n")
+            i = i+1
+        if i == len(visited)-2:
+        lastIndexOfZero = indexOfZero
+else:
+    print("The given pattern cannot be formed.")
